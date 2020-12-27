@@ -8,6 +8,7 @@ const ejs = require("ejs"); // include ejs module
 const app = express();
 
 let items = ["Buy Food", "Cook Food", "Eat Food"];
+let workItems = [];
 
 app.set('view engine', 'ejs'); //enables you to use static template files in your application using ejs
 
@@ -27,18 +28,28 @@ app.get("/", function(req, res){ //data server gets from home "/" page
 
   let day = today.toLocaleString("en-US",options);
 
-  res.render("list", {kindOfDay: day, newListItems: items}); //links the list.ejs file to kindOfDay variable in the html file to show in the screen
+  res.render("list", {listTitle: day, newListItems: items}); //links the list.ejs file to kindOfDay variable in the html file to show in the screen
     //replaces kindOfDay in the list.ejs file with day variable
 });
 
 app.post("/",function(req,res){
   let item = req.body.newItem;
-  items.push(item);
-  res.redirect("/");
 
-})
+  if (req.body.list === "Work"){
+    workItems.push(item);
+    res.redirect("/work");
+  }
+  else {
+    items.push(item);
+    res.redirect("/");
+  }
+});
 
 app.listen(3000, function(){
   console.log("Server started on port 3000.");
 });
 
+app.get("/work", function(req,res){
+  
+  res.render("list", {listTitle: "Work List", newListItems: workItems});
+});
