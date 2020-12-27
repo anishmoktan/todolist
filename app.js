@@ -16,35 +16,16 @@ app.use(express.static("public")); //enables use of built-in middleware for serv
 app.get("/", function(req, res){ //data server gets from home "/" page
 
   var today = new Date(); //declares date fucntion in JS
-  var currentDay = today.getDay(); //today's date in number [0-6]
-  var day = "";
 
-  switch(currentDay){
-    case 0:
-      day="Sunday";
-      break;
-    case 1:
-      day="Monday";
-      break;
-    case 2:
-      day="Tuesday";
-      break;
-    case 3:
-      day="Wednesday";
-      break;
-    case 4:
-      day="Thursday";
-      break;
-    case 5:
-      day="Friday";
-      break;
-    case 6:
-      day="Saturday";
-      break;
-    default:
-      console.log("Error: current day is equal to: " + currentDay);
-    
-  }
+  var options = {
+    weekday: "long",
+    day: "numeric",
+    month: "long"
+  };
+
+  var day = today.toLocaleString("en-US",options);
+  
+
 
   res.render("list", {kindOfDay: day}); //links the list.ejs file to kindOfDay variable in the html file to show in the screen
     //replaces kindOfDay in the list.ejs file with day variable
