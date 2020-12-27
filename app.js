@@ -7,6 +7,8 @@ const ejs = require("ejs"); // include ejs module
 
 const app = express();
 
+var items = ["Buy Food", "Cook Food", "Eat Food"];
+
 app.set('view engine', 'ejs'); //enables you to use static template files in your application using ejs
 
 app.use(bodyParser.urlencoded({extended: true})); //using it to be able to read the incoming json from frontend
@@ -25,13 +27,15 @@ app.get("/", function(req, res){ //data server gets from home "/" page
 
   var day = today.toLocaleString("en-US",options);
 
-  res.render("list", {kindOfDay: day}); //links the list.ejs file to kindOfDay variable in the html file to show in the screen
+  res.render("list", {kindOfDay: day, newListItems: items}); //links the list.ejs file to kindOfDay variable in the html file to show in the screen
     //replaces kindOfDay in the list.ejs file with day variable
 });
 
 app.post("/",function(req,res){
   var item = req.body.newItem;
-  console.log(item);
+  items.push(item);
+  res.redirect("/");
+
 })
 
 app.listen(3000, function(){
