@@ -2,6 +2,8 @@
 
 const express = require("express"); // includes express module by declaring contant
 const bodyParser = require("body-parser");
+const date = require(__dirname + "/date.js");
+
 const ejs = require("ejs"); // include ejs module
 
 
@@ -17,16 +19,7 @@ app.use(express.static("public")); //enables use of built-in middleware for serv
 
 
 app.get("/", function(req, res){ //data server gets from home "/" page
-
-  let today = new Date(); //declares date fucntion in JS
-
-  let options = {
-    weekday: "long",
-    day: "numeric",
-    month: "long"
-  };
-
-  let day = today.toLocaleString("en-US",options);
+  let day = date.getDate();
 
   res.render("list", {listTitle: day, newListItems: items}); //links the list.ejs file to kindOfDay variable in the html file to show in the screen
     //replaces kindOfDay in the list.ejs file with day variable
